@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Theo",
+    "email": "theochristian.sir@gmail.com",
+    "permissions": ["Dashboard", "Profile", "Settings"],
+    "id": "1"
+  },
+  {
+    "name": "Richard",
+    "email": "richard.m.simarmata@gmail.com",
+    "permissions": [
+      "dashboard",
+      "transaction",
+      "task",
+      "documents",
+      "store",
+      "notification",
+      "profile",
+      "settings"
+    ],
+    "id": "2"
+  },
+  {
+    "name": "Gita",
+    "email": "theochristian.sir@gmail.com",
+    "permissions": ["Dashboard", "Profile", "Settings"],
+    "id": "3"
+  }
+]
