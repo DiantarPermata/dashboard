@@ -1,41 +1,33 @@
-import 'package:Dashboard/pages/dashboard/dashboard.dart';
-import 'package:Dashboard/pages/documents/documents.dart';
-import 'package:Dashboard/pages/notif/notif.dart';
-import 'package:Dashboard/pages/pagescreen.dart';
-import 'package:Dashboard/pages/profile/profile.dart';
-import 'package:Dashboard/pages/settings/settings.dart';
-import 'package:Dashboard/pages/store/store.dart';
-import 'package:Dashboard/pages/task/task.dart';
-import 'package:Dashboard/pages/transaction/transaction.dart';
-import 'package:Dashboard/theme/color.dart';
-
+import 'package:dashboard/bloc/navigation/navigation_bloc.dart';
+import 'package:dashboard/helpers/page_routing/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:fluro/fluro.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'theme/color.dart';
 
 void main() {
+  final router = FluroRouter();
+  Routes.configureRoutes(router);
+  Application.router = router;
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dashboard',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: background,
-        useMaterial3: true,
+    return BlocProvider(
+      create: (context) => NavigationBloc(),
+      child: MaterialApp(
+        title: 'Dashboard',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: background,
+          useMaterial3: true,
+        ),
+        onGenerateRoute: Application.router.generator,
+        initialRoute: Routes.home,
       ),
-      home: PageScreen(),
-      routes: {
-        '/dashboard': (context) => Dashboard(),
-        '/transaction': (context) => Transaction(),
-        '/task': (context) => Task(),
-        '/documents': (context) => Documents(),
-        '/store': (context) => Store(),
-        '/notification': (context) => Notif(),
-        '/profile': (context) => Profile(),
-        '/settings': (context) => Settings(),
-      },
     );
   }
 }

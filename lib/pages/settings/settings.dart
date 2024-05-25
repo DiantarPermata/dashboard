@@ -1,9 +1,9 @@
-import 'package:dashboard/widgets/header_widget.dart';
+import 'package:dashboard/pages/settings/widget/settings_widget.dart';
 import 'package:dashboard/widgets/side_menu_widget.dart';
 import 'package:dashboard/theme/color.dart';
 import 'package:flutter/material.dart';
 
-class PageScreen extends StatelessWidget {
+class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +11,7 @@ class PageScreen extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Container(
                 color: backgroundSecondaryColor,
                 child: SideMenuWidget(),
@@ -19,7 +19,7 @@ class PageScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 7,
-              child: HeaderWidget(),
+              child: SettingsWidget(),
             ),
           ],
         ),

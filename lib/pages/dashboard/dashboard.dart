@@ -1,4 +1,4 @@
-import 'package:dashboard/widgets/dashboard_widget.dart';
+import 'package:dashboard/pages/dashboard/widget/dashboard_widget.dart';
 import 'package:dashboard/widgets/side_menu_widget.dart';
 import 'package:dashboard/theme/color.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ class Dashboard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Container(
                 color: backgroundSecondaryColor,
                 child: SideMenuWidget(),
@@ -20,12 +20,6 @@ class Dashboard extends StatelessWidget {
             Expanded(
               flex: 7,
               child: DashboardWidget(),
-            ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                color: background,
-              ),
             ),
           ],
         ),
