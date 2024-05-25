@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:dashboard/model/menu_model.dart';
+import 'package:flutter/material.dart';
 
 class SideMenuData {
-  final menu = <MenuModel>[
+  final List<MenuModel> menu = [
     MenuModel(icon: Icons.dashboard, title: 'Dashboard', route: '/dashboard'),
-    MenuModel(icon: Icons.person, title: 'Transaction', route: '/transaction'),
-    MenuModel(icon: Icons.settings, title: 'Task', route: '/task'),
-    MenuModel(icon: Icons.logout, title: 'Documents', route: '/documents'),
+    MenuModel(icon: Icons.money, title: 'Transaction', route: '/transaction'),
+    MenuModel(icon: Icons.task, title: 'Task', route: '/task'),
+    MenuModel(icon: Icons.folder, title: 'Documents', route: '/documents'),
     MenuModel(icon: Icons.store, title: 'Store', route: '/store'),
     MenuModel(
         icon: Icons.notifications,

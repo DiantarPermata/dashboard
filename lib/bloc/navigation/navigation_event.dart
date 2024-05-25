@@ -1,4 +1,5 @@
-part of 'navigation_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class NavigationEvent extends Equatable {
   const NavigationEvent();

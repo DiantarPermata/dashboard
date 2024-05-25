@@ -1,9 +1,11 @@
 import 'package:dashboard/bloc/navigation/navigation_bloc.dart';
-import 'package:dashboard/helpers/page_routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'theme/color.dart';
+import 'helpers/page_routing/routes.dart';
+import 'helpers/page_routing/application.dart';
+import 'bloc/profile/profile_bloc.dart';
+import 'bloc/profile/profile_event.dart';
 
 void main() {
   final router = FluroRouter();
@@ -18,15 +20,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => NavigationBloc(),
-      child: MaterialApp(
-        title: 'Dashboard',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: background,
-          useMaterial3: true,
+      child: BlocProvider(
+        create: (context) => ProfileBloc()..add(FetchProfile()),
+        child: MaterialApp(
+          title: 'Dashboard',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primaryColor: Colors.white,
+            useMaterial3: true,
+          ),
+          onGenerateRoute: Application.router.generator,
+          initialRoute: Routes.home,
         ),
-        onGenerateRoute: Application.router.generator,
-        initialRoute: Routes.home,
       ),
     );
   }

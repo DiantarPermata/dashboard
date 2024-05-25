@@ -20,6 +20,8 @@ dependencies:
   dio: ^5.0.1
   flutter_bloc: ^8.0.1
   fluro: ^2.0.3
+  http: ^0.13.3
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:

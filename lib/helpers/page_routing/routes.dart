@@ -31,7 +31,3 @@ class Routes {
     router.define(settings, handler: settingsHandler);
   }
 }
-
-class Application {
-  static late final FluroRouter router;
-}

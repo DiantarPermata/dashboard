@@ -1,3 +1,5 @@
+import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
 import 'package:dashboard/pages/dashboard/dashboard.dart';
 import 'package:dashboard/pages/documents/documents.dart';
 import 'package:dashboard/pages/notif/notif.dart';
@@ -6,8 +8,6 @@ import 'package:dashboard/pages/settings/settings.dart';
 import 'package:dashboard/pages/store/store.dart';
 import 'package:dashboard/pages/task/task.dart';
 import 'package:dashboard/pages/transaction/transaction.dart';
-import 'package:fluro/fluro.dart';
-import 'package:flutter/material.dart';
 
 var dashboardHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {

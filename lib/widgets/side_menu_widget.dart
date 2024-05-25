@@ -1,8 +1,12 @@
+import 'package:dashboard/bloc/navigation/navigation_event.dart';
+import 'package:dashboard/bloc/navigation/navigation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dashboard/theme/color.dart';
 import 'package:dashboard/data/side_menu_data.dart';
 import 'package:dashboard/bloc/navigation/navigation_bloc.dart';
+import 'package:dashboard/bloc/profile/profile_bloc.dart';
+import 'package:dashboard/bloc/profile/profile_state.dart';
 
 class SideMenuWidget extends StatefulWidget {
   @override
@@ -33,10 +37,17 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
               ),
               SizedBox(height: 20),
               Expanded(
-                child: ListView.builder(
-                  itemCount: data.menu.length,
-                  itemBuilder: (context, index) =>
-                      buildMenuEntry(data, index, selectedIndex),
+                child: BlocBuilder<ProfileBloc, ProfileState>(
+                  builder: (context, profileState) {
+                    return ListView.builder(
+                      itemCount: data.menu.length,
+                      itemBuilder: (context, index) {
+                        final menuEntry = data.menu[index];
+                        return buildMenuEntry(data, index, selectedIndex,
+                            profileState.permissions);
+                      },
+                    );
+                  },
                 ),
               ),
             ],
@@ -46,13 +57,24 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
     );
   }
 
-  Widget buildMenuEntry(SideMenuData data, int index, int selectedIndex) {
+  Widget buildMenuEntry(SideMenuData data, int index, int selectedIndex,
+      List<String> permissions) {
     final isSelected = selectedIndex == index;
+    final menuEntry = data.menu[index];
 
     return InkWell(
       onTap: () {
-        BlocProvider.of<NavigationBloc>(context)
-            .add(NavigateToPageEvent(context, data.menu[index].route, index));
+        if (permissions.contains(menuEntry.title.toLowerCase())) {
+          BlocProvider.of<NavigationBloc>(context)
+              .add(NavigateToPageEvent(context, menuEntry.route, index));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Anda tidak memiliki akses untuk ke page ini'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -65,13 +87,13 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
               child: Icon(
-                data.menu[index].icon,
+                menuEntry.icon,
                 color: isSelected ? background : textColor,
               ),
             ),
             Expanded(
               child: Text(
-                data.menu[index].title,
+                menuEntry.title,
                 style: TextStyle(
                   color: isSelected ? background : textColor,
                   fontSize: 16.0,
