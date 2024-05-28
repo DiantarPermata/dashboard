@@ -1,6 +1,6 @@
 import 'package:dashboard/theme/color.dart';
-import 'package:flutter/material.dart';
 import 'package:dashboard/widgets/header_widget.dart';
+import 'package:flutter/material.dart';
 
 class NotifWidget extends StatelessWidget {
   const NotifWidget({super.key});

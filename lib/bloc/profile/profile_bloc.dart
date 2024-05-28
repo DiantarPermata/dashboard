@@ -1,8 +1,7 @@
 import 'package:dashboard/bloc/profile/profile_event.dart';
 import 'package:dashboard/bloc/profile/profile_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:dio/dio.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileState()) {
@@ -14,10 +13,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       FetchProfile event, Emitter<ProfileState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {
-      final response = await http.get(
-          Uri.parse('https://65379935bb226bb85dd37d8b.mockapi.io/diantar_aja'));
+      var dio = Dio();
+      final response = await dio
+          .get('https://65379935bb226bb85dd37d8b.mockapi.io/diantar_aja');
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final data = response.data;
         if (data.isNotEmpty) {
           emit(state.copyWith(
             name: data[0]['name'],
@@ -32,7 +32,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } else {
         emit(state.copyWith(isLoading: false, hasError: true));
       }
-    } catch (_) {
+    } catch (e) {
       emit(state.copyWith(isLoading: false, hasError: true));
     }
   }

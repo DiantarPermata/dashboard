@@ -1,10 +1,13 @@
-import 'package:dashboard/bloc/navigation/navigation_event.dart';
-import 'package:dashboard/bloc/navigation/navigation_state.dart';
+import 'package:dashboard/helpers/page_routing/application.dart';
+import 'package:dashboard/helpers/page_routing/routes.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dashboard/theme/color.dart';
 import 'package:dashboard/data/side_menu_data.dart';
 import 'package:dashboard/bloc/navigation/navigation_bloc.dart';
+import 'package:dashboard/bloc/navigation/navigation_event.dart';
+import 'package:dashboard/bloc/navigation/navigation_state.dart';
 import 'package:dashboard/bloc/profile/profile_bloc.dart';
 import 'package:dashboard/bloc/profile/profile_state.dart';
 
@@ -68,12 +71,8 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
           BlocProvider.of<NavigationBloc>(context)
               .add(NavigateToPageEvent(context, menuEntry.route, index));
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Anda tidak memiliki akses untuk ke page ini'),
-              backgroundColor: Colors.red,
-            ),
-          );
+          Application.router.navigateTo(context, Routes.noAccess,
+              transition: TransitionType.fadeIn);
         }
       },
       child: Container(

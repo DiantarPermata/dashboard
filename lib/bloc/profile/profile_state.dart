@@ -4,7 +4,7 @@ class ProfileState extends Equatable {
   final String name;
   final String email;
   final List<String> permissions;
-  final List accounts;
+  final List<dynamic> accounts;
   final bool isLoading;
   final bool hasError;
 
@@ -21,7 +21,7 @@ class ProfileState extends Equatable {
     String? name,
     String? email,
     List<String>? permissions,
-    List? accounts,
+    List<dynamic>? accounts,
     bool? isLoading,
     bool? hasError,
   }) {
@@ -34,6 +34,26 @@ class ProfileState extends Equatable {
       hasError: hasError ?? this.hasError,
     );
   }
+
+  @override
+  List<Object> get props =>
+      [name, email, permissions, accounts, isLoading, hasError];
+}
+
+class ProfileLoaded extends ProfileState {
+  ProfileLoaded({
+    required String name,
+    required String email,
+    required List<String> permissions,
+    required List<dynamic> accounts,
+  }) : super(
+          name: name,
+          email: email,
+          permissions: permissions,
+          accounts: accounts,
+          isLoading: false,
+          hasError: false,
+        );
 
   @override
   List<Object> get props =>

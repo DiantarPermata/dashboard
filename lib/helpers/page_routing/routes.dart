@@ -12,6 +12,7 @@ class Routes {
   static String notification = "/notification";
   static String profile = "/profile";
   static String settings = "/settings";
+  static String noAccess = "/no-access"; // Define the No Access route
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(
@@ -29,5 +30,6 @@ class Routes {
     router.define(notification, handler: notificationHandler);
     router.define(profile, handler: profileHandler);
     router.define(settings, handler: settingsHandler);
+    router.define(noAccess, handler: noAccessHandler); // Add No Access handler
   }
 }

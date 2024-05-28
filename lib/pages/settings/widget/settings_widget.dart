@@ -1,6 +1,6 @@
 import 'package:dashboard/theme/color.dart';
-import 'package:flutter/material.dart';
 import 'package:dashboard/widgets/header_widget.dart';
+import 'package:flutter/material.dart';
 
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});

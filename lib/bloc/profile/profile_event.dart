@@ -14,7 +14,7 @@ class ChangeProfile extends ProfileEvent {
   final String email;
   final List<String> permissions;
 
-  const ChangeProfile(
+  ChangeProfile(
       {required this.name, required this.email, required this.permissions});
 
   @override

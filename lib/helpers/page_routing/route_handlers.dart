@@ -1,3 +1,4 @@
+import 'package:dashboard/pages/error/not_acces.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:dashboard/pages/dashboard/dashboard.dart';
@@ -54,5 +55,11 @@ var profileHandler = Handler(
 var settingsHandler = Handler(
   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
     return Settings();
+  },
+);
+
+var noAccessHandler = Handler(
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+    return NoAccess();
   },
 );

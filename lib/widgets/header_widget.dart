@@ -1,8 +1,12 @@
-import 'package:dashboard/bloc/profile/profile_bloc.dart';
 import 'package:dashboard/bloc/profile/profile_event.dart';
-import 'package:dashboard/bloc/profile/profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dashboard/bloc/profile/profile_bloc.dart';
+import 'package:dashboard/bloc/profile/profile_state.dart';
+import 'package:dashboard/bloc/header_title/header_title_bloc.dart';
+import 'package:dashboard/bloc/header_title/header_title_state.dart';
+import 'package:dashboard/theme/color.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HeaderWidget extends StatelessWidget {
   @override
@@ -10,113 +14,120 @@ class HeaderWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(width: 20),
-          Text(
-            'Dashboard',
-            style: TextStyle(
-                fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+          BlocBuilder<HeaderTitleBloc, HeaderTitleState>(
+            builder: (context, state) {
+              String title = 'Dashboard'; // Default title
+              if (state is HeaderTitleUpdated) {
+                title = state.title;
+              }
+              return Text(
+                title,
+                style: TextStyle(
+                  fontSize: 38,
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                ),
+              );
+            },
           ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: 200,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: TextStyle(
-                        color: Colors.black,
-                      ),
-                      fillColor: Colors.grey[200],
-                      filled: true,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 14.0, horizontal: 20.0),
-                      suffixIcon: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: IconButton(
-                          icon: Icon(Icons.search, color: Colors.white),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ),
-                  ),
+          Spacer(),
+          SizedBox(
+            width: 300,
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search',
+                fillColor: textColor,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide.none,
                 ),
-                SizedBox(width: 20),
-                InkWell(
-                  onTap: () {
-                    _showAccountList(context);
-                  },
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+                suffixIcon: InkWell(
+                  onTap: () {},
                   child: Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(16.0 * 0.75),
+                    margin: EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12.0),
+                      color: accentColor,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage: AssetImage(
-                              'assets/profile.jpg'), // Ensure the image asset is available
-                        ),
-                        SizedBox(width: 10),
-                        BlocBuilder<ProfileBloc, ProfileState>(
-                          builder: (context, state) {
-                            if (state.isLoading) {
-                              return CircularProgressIndicator();
-                            } else if (state.hasError) {
-                              return Text(
-                                'Error loading profile',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red,
-                                ),
-                              );
-                            } else {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    state.name,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  Text(
-                                    state.email,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
+                    child: SvgPicture.asset("assets/icons/search.svg"),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
+          SizedBox(width: 20),
+          InkWell(
+            onTap: () {
+              _showAccountList(context);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: accentColor2),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage('assets/profile.jpg'),
+                  ),
+                  SizedBox(width: 10),
+                  BlocBuilder<ProfileBloc, ProfileState>(
+                    builder: (context, state) {
+                      if (state.isLoading) {
+                        return CircularProgressIndicator();
+                      } else if (state.hasError) {
+                        return Text(
+                          'Error loading profile',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: accentColor2,
+                          ),
+                        );
+                      } else {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              state.name,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: accentColor2,
+                              ),
+                            ),
+                            Text(
+                              state.email,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: accentColor2,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          )
         ],
       ),
     );
