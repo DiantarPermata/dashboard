@@ -28,17 +28,18 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
         }
 
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          color: backgroundSecondaryColor, // Ubah warna background drawer
           child: Column(
             children: [
-              Image.asset('images/logo-example.png', height: 250),
-              SizedBox(height: 20),
+              Image.asset('images/logo-example.png', height: 150),
+              SizedBox(height: 10),
               Divider(
                 color: textColor,
                 thickness: 1,
-                height: 30,
+                height: 20,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Expanded(
                 child: BlocBuilder<ProfileBloc, ProfileState>(
                   builder: (context, profileState) {
@@ -88,15 +89,23 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
               child: Icon(
                 menuEntry.icon,
                 color: isSelected ? background : textColor,
+                size: 20, // Adjust icon size as needed
               ),
             ),
             Expanded(
-              child: Text(
-                menuEntry.title,
-                style: TextStyle(
-                  color: isSelected ? background : textColor,
-                  fontSize: 16.0,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    menuEntry.title,
+                    style: TextStyle(
+                      color: isSelected ? background : textColor,
+                      fontSize: 14.0, // Adjust text size as needed
+                      fontWeight:
+                          isSelected ? FontWeight.w600 : FontWeight.normal,
+                    ),
+                  ),
                 ),
               ),
             ),

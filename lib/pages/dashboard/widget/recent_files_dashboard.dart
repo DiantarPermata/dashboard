@@ -33,13 +33,16 @@ class RecentFiles extends StatelessWidget {
               columnSpacing: 16,
               columns: [
                 DataColumn(
-                  label: Text("File Name", style: TextStyle(color: textColor)),
+                  label: Text("File Name",
+                      style: TextStyle(color: textColor, fontSize: 10)),
                 ),
                 DataColumn(
-                  label: Text("Date", style: TextStyle(color: textColor)),
+                  label: Text("Date",
+                      style: TextStyle(color: textColor, fontSize: 10)),
                 ),
                 DataColumn(
-                  label: Text("Size", style: TextStyle(color: textColor)),
+                  label: Text("Size",
+                      style: TextStyle(color: textColor, fontSize: 10)),
                 ),
               ],
               rows: List.generate(

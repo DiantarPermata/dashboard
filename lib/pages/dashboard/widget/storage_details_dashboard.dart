@@ -11,25 +11,38 @@ class StorageDetailsDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
+      width: double.infinity, // Ensuring full width in responsive design
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: backgroundSecondaryColor,
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Storage Details',
-            style: TextStyle(
-                color: textColor, fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          CircularChart(),
-          SizedBox(height: 20),
-          ...storageInfos.map((info) => StorageInfoCard(info: info)).toList(),
-        ],
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: 400, // Set maximum height as needed
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Storage Details',
+              style: TextStyle(
+                  color: textColor, fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            CircularChart(),
+            SizedBox(height: 20),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: storageInfos
+                      .map((info) => StorageInfoCard(info: info))
+                      .toList(),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -90,14 +103,25 @@ class StorageInfoCard extends StatelessWidget {
           ),
           SizedBox(width: 10),
           Expanded(
-            child: Text(
-              info.title,
-              style: TextStyle(color: textColor),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                info.title,
+                style: TextStyle(color: textColor),
+              ),
             ),
           ),
-          Text(info.fileCount, style: TextStyle(color: Colors.white60)),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child:
+                Text(info.fileCount, style: TextStyle(color: Colors.white60)),
+          ),
           SizedBox(width: 10),
-          Text(info.size, style: TextStyle(color: textColor)),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(info.size, style: TextStyle(color: textColor)),
+          ),
         ],
       ),
     );
