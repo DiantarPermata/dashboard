@@ -88,7 +88,6 @@ class HeaderWidget extends StatelessWidget {
                   ),
                   onChanged: (text) {
                     final sanitizedText = text.replaceAll(RegExp(r'[^\w\s]+'), '');
-                    // Use sanitizedText for further processing
                   },
                 ),
               ),
