@@ -22,6 +22,9 @@ dependencies:
   fluro: ^2.0.3
   http: ^0.13.3
   equatable: ^2.0.3
+  mockito: ^5.0.15
+  build_runner: ^2.1.11
+  
 
 dev_dependencies:
   flutter_test:

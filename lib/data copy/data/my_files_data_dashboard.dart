@@ -1,4 +1,4 @@
-import 'package:dashboard/model/my_files_model_dashboard.dart';
+import 'package:dashboard/data%20copy/models/my_files_model_dashboard.dart';
 
 final List<MyFile> myFiles = [
   MyFile(

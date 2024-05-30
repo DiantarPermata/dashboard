@@ -10,6 +10,28 @@ class ApiHelperImpl extends ApiHelper {
   }
 
   Dio initDio() {
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          print('Request [${options.method}] ${options.path}');
+          print('Request data: ${options.data}');
+          return handler.next(options); // Lanjutkan
+        },
+        onResponse: (response, handler) {
+          print('Response [${response.statusCode}] ${response.requestOptions.path}');
+          print('Response data: ${response.data}');
+          return handler.next(response); // Lanjutkan
+        },
+        onError: (DioError error, handler) {
+          print('Error: ${error.message}');
+          if (error.response != null) {
+            print('Error data: ${error.response?.data}');
+            print('Error status code: ${error.response?.statusCode}');
+          }
+          return handler.next(error); // Lanjutkan
+        },
+      ),
+    );
     return dio;
   }
 
@@ -28,17 +50,14 @@ class ApiHelperImpl extends ApiHelper {
       );
       return response.data;
     } on DioException catch (e) {
-      // If Token Expired
-      Response response;
-      if (e.response!.statusCode == 403) {
-        response = await dio.get(
+      if (e.response?.statusCode == 403) {
+        Response response = await dio.get(
           url,
           options: options,
           queryParameters: queryParameters,
         );
         return response.data;
       }
-
       rethrow;
     } on Exception {
       rethrow;
@@ -46,12 +65,13 @@ class ApiHelperImpl extends ApiHelper {
   }
 
   @override
-  Future<List<dynamic>> post(
-      {required String url,
-      required dynamic body,
-      Options? options,
-      Map<String, dynamic>? headers,
-      Map<String, dynamic>? queryParameters}) async {
+  Future<List<dynamic>> post({
+    required String url,
+    required dynamic body,
+    Options? options,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       Response response = await dio.post(
         url,
@@ -61,10 +81,8 @@ class ApiHelperImpl extends ApiHelper {
       );
       return response.data;
     } on DioException catch (e) {
-      // If Token Expired
-      Response response;
-      if (e.response!.statusCode == 403) {
-        response = await dio.post(
+      if (e.response?.statusCode == 403) {
+        Response response = await dio.post(
           url,
           options: options,
           data: body,
@@ -72,7 +90,6 @@ class ApiHelperImpl extends ApiHelper {
         );
         return response.data;
       }
-
       rethrow;
     } on Exception {
       rethrow;
@@ -80,14 +97,14 @@ class ApiHelperImpl extends ApiHelper {
   }
 
   @override
-  Future<List<dynamic>> patch(
-      {required String url,
-      required body,
-      Options? options,
-      Map<String, dynamic>? headers,
-      Map<String, dynamic>? queryParameters}) async {
+  Future<List<dynamic>> patch({
+    required String url,
+    required dynamic body,
+    Options? options,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      // Hit the request URL
       Response response = await dio.patch(
         url,
         data: body,
@@ -96,10 +113,8 @@ class ApiHelperImpl extends ApiHelper {
       );
       return response.data;
     } on DioException catch (e) {
-      // If Token Expired
-      Response response;
-      if (e.response!.statusCode == 403) {
-        response = await dio.patch(
+      if (e.response?.statusCode == 403) {
+        Response response = await dio.patch(
           url,
           options: options,
           data: body,
@@ -107,7 +122,6 @@ class ApiHelperImpl extends ApiHelper {
         );
         return response.data;
       }
-
       rethrow;
     } on Exception {
       rethrow;
@@ -115,11 +129,12 @@ class ApiHelperImpl extends ApiHelper {
   }
 
   @override
-  Future<List<dynamic>> downloadUri(
-      {required String url,
-      required body,
-      Map<String, dynamic>? headers,
-      Map<String, dynamic>? queryParameters}) async {
+  Future<List<dynamic>> downloadUri({
+    required String url,
+    required dynamic body,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       final Response response = await dio.downloadUri(Uri.parse(url), body);
       return response.data;
@@ -130,17 +145,17 @@ class ApiHelperImpl extends ApiHelper {
   }
 
   @override
-  Future<Response> getImage(
-      {required String url,
-      Options? options,
-      Map<String, dynamic>? headers,
-      Map<String, dynamic>? queryParameters}) async {
+  Future<Response> getImage({
+    required String url,
+    Options? options,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       final Response response = await dio.get(url, options: options);
       return response;
     } on DioException catch (e) {
-      Response error = e.error as Response;
-      return error;
+      return e.response!;
     }
   }
 }

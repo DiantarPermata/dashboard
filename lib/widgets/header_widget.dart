@@ -32,7 +32,8 @@ class HeaderWidget extends StatelessWidget {
                 ),
               if (Responsive.isMobile(context) || Responsive.isTablet(context))
                 SizedBox(width: 10),
-              if (!Responsive.isMobile(context))
+              if (!Responsive.isMobile(context)) ...[
+                SizedBox(width: 20),
                 BlocBuilder<HeaderTitleBloc, HeaderTitleState>(
                   builder: (context, state) {
                     String title = 'Dashboard';
@@ -49,6 +50,7 @@ class HeaderWidget extends StatelessWidget {
                     );
                   },
                 ),
+              ],
               Spacer(),
               SizedBox(
                 width:
@@ -84,6 +86,10 @@ class HeaderWidget extends StatelessWidget {
                       ),
                     ),
                   ),
+                  onChanged: (text) {
+                    final sanitizedText = text.replaceAll(RegExp(r'[^\w\s]+'), '');
+                    // Use sanitizedText for further processing
+                  },
                 ),
               ),
               SizedBox(width: 20),
@@ -166,23 +172,22 @@ class HeaderWidget extends StatelessWidget {
             if (state.isLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state.hasError) {
-              return Center(child: Text('Error loading accounts'));
+              return Center(child: Text('Ada apa ini awkwkwkwk'));
             } else {
               return ListView.builder(
                 itemCount: state.accounts.length,
                 itemBuilder: (context, index) {
                   final account = state.accounts[index];
                   return ListTile(
-                    title: Text(account['name']),
-                    subtitle: Text(account['email']),
+                    title: Text(account.name),
+                    subtitle: Text(account.email),
                     onTap: () {
                       Navigator.pop(context);
                       context.read<ProfileBloc>().add(
                             ChangeProfile(
-                              name: account['name'],
-                              email: account['email'],
-                              permissions:
-                                  List<String>.from(account['permissions']),
+                              name: account.name,
+                              email: account.email,
+                              permissions: account.permissions,
                             ),
                           );
                     },

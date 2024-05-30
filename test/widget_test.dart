@@ -1,30 +1,38 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:dashboard/main.dart';
+import 'package:dashboard/helpers/page_routing/application.dart';
+import 'package:dashboard/helpers/page_routing/routes.dart';
+import 'package:mockito/mockito.dart';
+import 'api_helper_test.mocks.dart'; // Import generated mocks
+import 'package:fluro/fluro.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    // Initialize the router before tests
+    final router = FluroRouter();
+    Routes.configureRoutes(router);
+    Application.router = router;
+  });
+
+  testWidgets('Profile fetch test', (WidgetTester tester) async {
+    final mockApiHelper = MockApiHelper();
+
+    // Stubbing the methods of mockApiHelper
+    when(mockApiHelper.get(url: anyNamed('url'))).thenAnswer((_) async {
+      return [
+        {'name': 'John Doe', 'email': 'john.doe@example.com', 'permissions': ['dashboard']}
+      ];
+    });
+
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(apiHelper: mockApiHelper));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that profile data is fetched and displayed correctly
+    await tester.pumpAndSettle(); // Wait for all frames to complete
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify fetched user name is displayed
+    expect(find.text('John Doe'), findsOneWidget);
   });
 }

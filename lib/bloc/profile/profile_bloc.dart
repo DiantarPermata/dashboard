@@ -1,10 +1,12 @@
+import 'package:bloc/bloc.dart';
 import 'package:dashboard/bloc/profile/profile_event.dart';
 import 'package:dashboard/bloc/profile/profile_state.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
+import 'package:dashboard/data%20copy/services/service_profile.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc() : super(ProfileState()) {
+  final ServiceProfile serviceProfile;
+
+  ProfileBloc({required this.serviceProfile}) : super(ProfileState()) {
     on<FetchProfile>(_onFetchProfile);
     on<ChangeProfile>(_onChangeProfile);
   }
@@ -13,22 +15,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       FetchProfile event, Emitter<ProfileState> emit) async {
     emit(state.copyWith(isLoading: true));
     try {
-      var dio = Dio();
-      final response = await dio
-          .get('https://65379935bb226bb85dd37d8b.mockapi.io/diantar_aja');
-      if (response.statusCode == 200) {
-        final data = response.data;
-        if (data.isNotEmpty) {
-          emit(state.copyWith(
-            name: data[0]['name'],
-            email: data[0]['email'],
-            permissions: List<String>.from(data[0]['permissions']),
-            accounts: data,
-            isLoading: false,
-          ));
-        } else {
-          emit(state.copyWith(isLoading: false, hasError: true));
-        }
+      final data = await serviceProfile.getAllProfiles();
+      if (data.isNotEmpty) {
+        emit(state.copyWith(
+          name: data[0].name,
+          email: data[0].email,
+          permissions: data[0].permissions,
+          accounts: data,
+          isLoading: false,
+        ));
       } else {
         emit(state.copyWith(isLoading: false, hasError: true));
       }

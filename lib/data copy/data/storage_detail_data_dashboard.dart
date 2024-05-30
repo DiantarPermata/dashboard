@@ -1,4 +1,4 @@
-import 'package:dashboard/model/storage_detail_model_dashboard.dart';
+import 'package:dashboard/data%20copy/models/storage_detail_model_dashboard.dart';
 
 final List<StorageInfo> storageInfos = [
   StorageInfo(

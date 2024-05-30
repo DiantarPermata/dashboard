@@ -14,8 +14,11 @@ class ChangeProfile extends ProfileEvent {
   final String email;
   final List<String> permissions;
 
-  ChangeProfile(
-      {required this.name, required this.email, required this.permissions});
+  ChangeProfile({
+    required this.name,
+    required this.email,
+    required this.permissions,
+  });
 
   @override
   List<Object> get props => [name, email, permissions];

@@ -1,4 +1,4 @@
-import 'package:dashboard/model/storage_detail_model_dashboard.dart';
+import 'package:dashboard/data%20copy/models/storage_detail_model_dashboard.dart';
 import 'package:dashboard/theme/color.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:dashboard/model/menu_model.dart';
+import 'package:dashboard/data%20copy/models/menu_model.dart';
 import 'package:flutter/material.dart';
 
 class SideMenuData {

@@ -39,23 +39,3 @@ class ProfileState extends Equatable {
   List<Object> get props =>
       [name, email, permissions, accounts, isLoading, hasError];
 }
-
-class ProfileLoaded extends ProfileState {
-  ProfileLoaded({
-    required String name,
-    required String email,
-    required List<String> permissions,
-    required List<dynamic> accounts,
-  }) : super(
-          name: name,
-          email: email,
-          permissions: permissions,
-          accounts: accounts,
-          isLoading: false,
-          hasError: false,
-        );
-
-  @override
-  List<Object> get props =>
-      [name, email, permissions, accounts, isLoading, hasError];
-}

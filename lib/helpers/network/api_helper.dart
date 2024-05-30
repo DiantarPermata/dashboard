@@ -3,9 +3,9 @@ import 'package:dio/dio.dart';
 abstract class ApiHelper {
   Future<List<dynamic>> get({
     required String url,
-    Options? options,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? queryParameters,
+    Options? options,
   });
 
   Future<List<dynamic>> post({
@@ -38,3 +38,4 @@ abstract class ApiHelper {
     Map<String, dynamic>? queryParameters,
   });
 }
+
